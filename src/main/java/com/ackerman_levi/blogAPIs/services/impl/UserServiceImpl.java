@@ -29,7 +29,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto userDto, int userId) {
-        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        User user = this.userRepo.findById(userId).orElseThrow(() ->
+                new ResourceNotFoundException("User", "id", userId));
 
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
@@ -43,7 +44,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByID(int userId) {
-        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        User user = this.userRepo.findById(userId).orElseThrow(() ->
+                new ResourceNotFoundException("User", "id", userId));
         return this.userToUserDto(user);
     }
 
