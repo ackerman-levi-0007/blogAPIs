@@ -2,6 +2,7 @@ package com.ackerman_levi.blogAPIs.controllers;
 
 import com.ackerman_levi.blogAPIs.payloads.ApiResponse;
 import com.ackerman_levi.blogAPIs.payloads.PostDto;
+import com.ackerman_levi.blogAPIs.payloads.PostResponse;
 import com.ackerman_levi.blogAPIs.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,12 +43,12 @@ public class PostController {
     }
 
     @GetMapping("/getAllPosts")
-    public ResponseEntity<List<PostDto>> getPostByID(
+    public ResponseEntity<PostResponse> getPostByID(
             @RequestParam(value = "pageNumber", defaultValue = "1" , required = false) int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
     ){
-        List<PostDto> postDto = this.postService.getAllPosts(pageNumber, pageSize);
-        return new ResponseEntity<List<PostDto>>(postDto, HttpStatus.FOUND);
+        PostResponse postResponses = this.postService.getAllPosts(pageNumber, pageSize);
+        return new ResponseEntity<PostResponse>(postResponses, HttpStatus.FOUND);
     }
 
     @GetMapping("/getPostsByCategoryID/{categoryID}")

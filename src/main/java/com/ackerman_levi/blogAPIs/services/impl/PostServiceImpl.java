@@ -4,9 +4,8 @@ import com.ackerman_levi.blogAPIs.entities.Category;
 import com.ackerman_levi.blogAPIs.entities.Post;
 import com.ackerman_levi.blogAPIs.entities.User;
 import com.ackerman_levi.blogAPIs.exceptions.ResourceNotFoundException;
-import com.ackerman_levi.blogAPIs.payloads.CategoryDto;
 import com.ackerman_levi.blogAPIs.payloads.PostDto;
-import com.ackerman_levi.blogAPIs.payloads.UserDto;
+import com.ackerman_levi.blogAPIs.payloads.PostResponse;
 import com.ackerman_levi.blogAPIs.repositories.CategoryRepo;
 import com.ackerman_levi.blogAPIs.repositories.PostRepo;
 import com.ackerman_levi.blogAPIs.repositories.UserRepo;
@@ -94,11 +93,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPosts(int pageNumber, int pageSize) {
+    public PostResponse getAllPosts(int pageNumber, int pageSize) {
 
         Pageable p = PageRequest.of(pageNumber, pageSize);
         Page<Post> pagePost = this.postRepo.findAll(p);
-        return pagePost.getContent().stream().map(x -> this.modelMapper.map(x,PostDto.class)).collect(Collectors.toList());
+
+        List<PostDto> postDto = pagePost.getContent().stream().map(x -> this.modelMapper.map(x,PostDto.class)).collect(Collectors.toList());
+
+        PostResponse postResponse = new PostResponse();
+        postResponse.setContent(postDto);
+        postResponse.setPageNumber(pagePost.getNumber());
+        postResponse.setPageSize(pagePost.getSize());
+        postResponse.setTotalElements(pagePost.getTotalElements());
+        postResponse.setTotalPages(pagePost.getTotalPages());
+        postResponse.setLastPage(pagePost.isLast());
+
+        return postResponse;
     }
 
     @Override
