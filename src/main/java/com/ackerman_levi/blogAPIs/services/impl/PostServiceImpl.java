@@ -13,6 +13,9 @@ import com.ackerman_levi.blogAPIs.repositories.UserRepo;
 import com.ackerman_levi.blogAPIs.services.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -91,9 +94,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPosts() {
-        List<Post> posts = this.postRepo.findAll();
-        return posts.stream().map(x -> this.modelMapper.map(x,PostDto.class)).collect(Collectors.toList());
+    public List<PostDto> getAllPosts(int pageNumber, int pageSize) {
+
+        Pageable p = PageRequest.of(pageNumber, pageSize);
+        Page<Post> pagePost = this.postRepo.findAll(p);
+        return pagePost.getContent().stream().map(x -> this.modelMapper.map(x,PostDto.class)).collect(Collectors.toList());
     }
 
     @Override

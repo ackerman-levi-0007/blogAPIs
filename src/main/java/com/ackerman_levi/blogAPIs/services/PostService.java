@@ -10,7 +10,7 @@ public interface PostService {
     PostDto updatePost(PostDto postDto, int postID, int categoryID, int userID);
     void deletePost(int postID);
     PostDto getPostByID(int postID);
-    List<PostDto> getAllPosts();
+    List<PostDto> getAllPosts(int pageNumber,int pageSize);
     List<PostDto> getPostsByCategory(int categoryID);
     List<PostDto> getPostByUser(int userID);
     List<PostDto> searchPosts(String keyword);
