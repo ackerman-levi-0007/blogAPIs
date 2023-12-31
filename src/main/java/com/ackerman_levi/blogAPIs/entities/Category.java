@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "Categories")
 @NoArgsConstructor
@@ -15,9 +18,14 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    public int id;
+    private int id;
+
     @Column(name = "category_title", nullable = false, length = 50)
-    public String title;
+    private String title;
+
     @Column(name = "category_description", nullable = false, length = 250)
-    public  String description;
+    private  String description;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Post> posts = new ArrayList<>();
 }
