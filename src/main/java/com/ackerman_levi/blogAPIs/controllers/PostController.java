@@ -1,5 +1,6 @@
 package com.ackerman_levi.blogAPIs.controllers;
 
+import com.ackerman_levi.blogAPIs.config.AppConstant;
 import com.ackerman_levi.blogAPIs.payloads.ApiResponse;
 import com.ackerman_levi.blogAPIs.payloads.PostDto;
 import com.ackerman_levi.blogAPIs.payloads.PostResponse;
@@ -44,10 +45,12 @@ public class PostController {
 
     @GetMapping("/getAllPosts")
     public ResponseEntity<PostResponse> getPostByID(
-            @RequestParam(value = "pageNumber", defaultValue = "1" , required = false) int pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+            @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir
     ){
-        PostResponse postResponses = this.postService.getAllPosts(pageNumber, pageSize);
+        PostResponse postResponses = this.postService.getAllPosts(pageNumber, pageSize, sortBy, sortDir);
         return new ResponseEntity<PostResponse>(postResponses, HttpStatus.FOUND);
     }
 
@@ -60,6 +63,12 @@ public class PostController {
     @GetMapping("/getPostsByUserID/{userID}")
     public ResponseEntity<List<PostDto>> getPostsByUserID(@PathVariable int userID){
         List<PostDto> postDto = this.postService.getPostByUser(userID);
+        return new ResponseEntity<List<PostDto>>(postDto, HttpStatus.FOUND);
+    }
+
+    @GetMapping("/searchPosts/{keyword}")
+    public ResponseEntity<List<PostDto>> searchPosts(@PathVariable String keyword){
+        List<PostDto> postDto = this.postService.searchPosts(keyword);
         return new ResponseEntity<List<PostDto>>(postDto, HttpStatus.FOUND);
     }
 }
