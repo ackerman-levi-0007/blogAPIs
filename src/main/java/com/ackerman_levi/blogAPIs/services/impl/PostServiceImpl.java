@@ -54,14 +54,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto updatePost(PostDto postDto, int postID, int categoryID, int userID) {
-        Category category = this.categoryRepo.findById(categoryID).orElseThrow(
-                () -> new ResourceNotFoundException("Category", "id", categoryID)
-        );
-
-        User user = this.userRepo.findById(userID).orElseThrow(() ->
-                new ResourceNotFoundException("User", "id", userID));
-
+    public PostDto updatePost(PostDto postDto, int postID) {
         Post post = this.postRepo.findById(postID).orElseThrow(() ->
                 new ResourceNotFoundException("Post", "id", postID));
 
@@ -70,8 +63,6 @@ public class PostServiceImpl implements PostService {
         post.setTitle(updatedPost.getTitle());
         post.setContent(updatedPost.getContent());
         post.setImageName(updatedPost.getImageName());
-        post.setCategory(category);
-        post.setUser(user);
 
         Post savedPost = this.postRepo.save(post);
 
