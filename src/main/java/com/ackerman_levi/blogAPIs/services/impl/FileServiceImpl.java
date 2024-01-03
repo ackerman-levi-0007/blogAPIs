@@ -36,7 +36,6 @@ public class FileServiceImpl implements FileService {
     @Override
     public InputStream downloadFile(String path, String fileName) throws FileNotFoundException {
         String fullPath = path + File.separator + fileName;
-        FileInputStream fileInputStream = new FileInputStream(fullPath);
-        return fileInputStream;
+        return new FileInputStream(fullPath);
     }
 }

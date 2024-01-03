@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -16,6 +17,7 @@ public class PostDto {
     private String content;
     private String imageName = "default.png";
     private CategoryDto category;
+    private Set<CommentDto> comments;
     private UserDto user;
     private Date createdOn;
 }

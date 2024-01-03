@@ -34,4 +34,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Comment comment;
 }
